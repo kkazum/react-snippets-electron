@@ -1,63 +1,39 @@
 import React from 'react';
-import Head from 'next/head';
-import { Theme, makeStyles, createStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogActions from '@material-ui/core/DialogActions';
-import Typography from '@material-ui/core/Typography';
-import Link from '../components/Link';
+import FileSystemNavigator from '../components/Tree';
+import { flexbox } from '@material-ui/system';
+import { Box } from '@material-ui/core';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      textAlign: 'center',
-      paddingTop: theme.spacing(4),
-    },
-  })
-);
-
-function Home() {
-  const classes = useStyles({});
-  const [open, setOpen] = React.useState(false);
-  const handleClose = () => setOpen(false);
-  const handleClick = () => setOpen(true);
-
-  return (
-    <React.Fragment>
-      <Head>
-        <title>Home - Nextron (with-typescript-material-ui)</title>
-      </Head>
-      <div className={classes.root}>
-        <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>Super Secret Password</DialogTitle>
-          <DialogContent>
-            <DialogContentText>1-2-3-4-5</DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button color="primary" onClick={handleClose}>
-              OK
-            </Button>
-          </DialogActions>
-        </Dialog>
-        <Typography variant="h4" gutterBottom>
-          Material-UI
-        </Typography>
-        <Typography variant="subtitle1" gutterBottom>
-          with Nextron
-        </Typography>
-        <img src="/images/logo.png" />
-        <Typography gutterBottom>
-          <Link href="/next">Go to the next page</Link>
-        </Typography>
-        <Button variant="contained" color="secondary" onClick={handleClick}>
-          Super Secret Password
-        </Button>
-      </div>
-    </React.Fragment>
-  );
+const Home = () => {
+  if (typeof window !== 'undefined') {
+    const AceEditor = require('react-ace').default;
+    require('ace-builds/src-noconflict/mode-javascript');
+    require('ace-builds/src-noconflict/theme-monokai');
+    require('ace-builds/src-noconflict/ext-language_tools');
+    return (
+      <React.Fragment>
+        <Box display="flex" justifyContent="flex-end">
+          <FileSystemNavigator />
+          <AceEditor
+            mode="javascript"
+            theme="monokai"
+            // onChange={onChange}
+            value="console.log()"
+            fontSize="16px"
+            name="UNIQUE_ID_OF_DIV"
+            editorProps={{ $blockScrolling: true }}
+            height="1000px"
+            width="960px"
+            setOptions={{
+              enableBasicAutocompletion: true,
+              enableLiveAutocompletion: true,
+              enableSnippets: true,
+            }}
+          />
+        </Box>
+      </React.Fragment>
+    );
+  }
+  return null;
 };
 
 export default Home;
