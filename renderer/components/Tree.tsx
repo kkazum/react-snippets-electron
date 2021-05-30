@@ -8,12 +8,10 @@ import TreeItem from '@material-ui/lab/TreeItem';
 
 const useStyles = makeStyles({
   root: {
-    height: 1000,
-    maxWidth: 240,
+    height: 940,
+    maxWidth: "240px",
     width: '100%',
-    position: 'fixed',
-    top: 0,
-    left: 0,
+    padding: "5px 0 0 10px"
   },
 });
 

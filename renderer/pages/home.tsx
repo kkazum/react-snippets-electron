@@ -1,8 +1,14 @@
 import React from 'react';
 import FileSystemNavigator from '../components/Tree';
 import { Box } from '@material-ui/core';
+import { styled } from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
 import { uuid } from 'uuidv4';
 import { TreeItemData } from '../components/Tree';
+import CreateNewFolderIcon from '@material-ui/icons/CreateNewFolder';
+import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+
 const sample: TreeItemData[] = [
   {
     id: uuid(),
@@ -42,7 +48,35 @@ const Home = () => {
     return (
       <React.Fragment>
         <Box display="flex" justifyContent="flex-end">
-          <FileSystemNavigator treeItems={sample} />
+          <Box
+            maxWidth="240px"
+            width="100%"
+            display="flex"
+            flexDirection="column"
+            position="fixed"
+            top="0"
+            left="0"
+          >
+            <Box
+              display="flex"
+              justifyContent="space-evenly"
+              alignItems="center"
+              width="100%"
+              height="60px"
+              borderBottom="1px solid black"
+            >
+              <IconButton>
+                <CreateNewFolderIcon />
+              </IconButton>
+              <IconButton>
+                <InsertDriveFileIcon />
+              </IconButton>
+              <IconButton>
+                <DeleteForeverIcon />
+              </IconButton>
+            </Box>
+            <FileSystemNavigator treeItems={sample} />
+          </Box>
           <AceEditor
             mode="javascript"
             theme="monokai"
