@@ -1,8 +1,38 @@
 import React from 'react';
 import FileSystemNavigator from '../components/Tree';
-import { flexbox } from '@material-ui/system';
 import { Box } from '@material-ui/core';
-
+import { uuid } from 'uuidv4';
+import { TreeItemData } from '../components/Tree';
+const sample: TreeItemData[] = [
+  {
+    id: uuid(),
+    name: 'English',
+    children: [
+      {
+        id: uuid(),
+        name: 'Spring',
+        children: [],
+      },
+    ],
+  },
+  {
+    id: uuid(),
+    name: 'Italian',
+    children: [
+      {
+        id: uuid(),
+        name: 'Level A',
+        children: [
+          {
+            id: uuid(),
+            name: 'LevelB',
+            children: [],
+          },
+        ],
+      },
+    ],
+  },
+];
 const Home = () => {
   if (typeof window !== 'undefined') {
     const AceEditor = require('react-ace').default;
@@ -12,7 +42,7 @@ const Home = () => {
     return (
       <React.Fragment>
         <Box display="flex" justifyContent="flex-end">
-          <FileSystemNavigator />
+          <FileSystemNavigator treeItems={sample} />
           <AceEditor
             mode="javascript"
             theme="monokai"
