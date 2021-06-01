@@ -1,6 +1,7 @@
-import { app } from 'electron';
+import { app, ipcMain } from 'electron';
 import serve from 'electron-serve';
 import { createWindow } from './helpers';
+const prompt = require('electron-prompt');
 
 const isProd: boolean = process.env.NODE_ENV === 'production';
 
@@ -12,7 +13,6 @@ if (isProd) {
 
 (async () => {
   await app.whenReady();
-
   const mainWindow = createWindow('main', {
     width: 1200,
     height: 1000,
@@ -29,4 +29,26 @@ if (isProd) {
 
 app.on('window-all-closed', () => {
   app.quit();
+});
+
+ipcMain.on('async-message', (e, arg) => {
+  prompt({
+    title: 'Prompt example',
+    label: 'URL:',
+    value: 'http://example.org',
+    inputAttrs: {
+        type: 'text'
+    },
+    type: 'input',
+    width: '600',
+    height: '600',
+})
+.then((r) => {
+    if(r === null) {
+        console.log('user cancelled');
+    } else {
+        console.log('result', r);
+    }
+})
+.catch(console.error);
 });

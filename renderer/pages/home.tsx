@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
+import electron from 'electron';
 import FileSystemNavigator from '../components/Tree';
 import { Box } from '@material-ui/core';
-import { styled } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import { uuid } from 'uuidv4';
 import { TreeItemData } from '../components/Tree';
@@ -40,8 +40,12 @@ const sample: TreeItemData[] = [
   },
 ];
 const Home = () => {
+  const [treeState, setTreeState] = useState<TreeItemData[]>([]);
+
   if (typeof window !== 'undefined') {
     const AceEditor = require('react-ace').default;
+    const ipcRenderer = electron.ipcRenderer || false;
+
     require('ace-builds/src-noconflict/mode-javascript');
     require('ace-builds/src-noconflict/theme-monokai');
     require('ace-builds/src-noconflict/ext-language_tools');
@@ -65,7 +69,20 @@ const Home = () => {
               height="60px"
               borderBottom="1px solid black"
             >
-              <IconButton>
+              <IconButton
+                onClick={() => {
+                  ipcRenderer.send('async-message', 'Open!');
+                  ipcRenderer.on('async-reply', (_e, arg) => {
+                    const folderName = arg
+                    if (!folderName) return;
+                    const folder = { id: uuid(), name: folderName, children: [] };
+                    setTreeState([...treeState, folder]);
+                    return (): void => {
+                      ipcRenderer.removeAllListeners('async-reply');
+                    };
+                  });
+                }}
+              >
                 <CreateNewFolderIcon />
               </IconButton>
               <IconButton>

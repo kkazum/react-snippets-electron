@@ -21,7 +21,7 @@ export interface TreeItemData {
   children: TreeItemData[];
 }
 
-interface DataTreeViewProps {
+export interface DataTreeViewProps {
   treeItems: TreeItemData[];
 }
 
